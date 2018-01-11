@@ -4,9 +4,24 @@ vue-validate is a lightweight, extensible form validation mixin for Vue componen
 
 ## Usage
 
-You could use like this [demo](demo/index.html).
+You could use like this [demo](https://holyzfy.github.io/vue-validate/demo/index.html).
 
-Vue instances expose a property `errors` and a method 'valid(selector)'.
+```js
+var vm = new Vue({
+    el: '#form',
+    mixins: [validate(options)],
+    methods: {
+        submit: function () {
+            if (!this.valid()) {
+                return;
+            }
+            alert('Form is valid!');
+        }
+    }
+});
+```
+
+Vue instances `vm` expose a property `errors` and a method `valid(selector)`.
 
 ### `vm.errors`
 
@@ -23,7 +38,7 @@ One or more key/value pairs of input names and messages, e.g.:
 
 Checks whether the selected form is valid or whether all selected elements are valid, returning true if an element is valid. 
 
-- `selector`: Elements to be validated, default `input, textarea, select`.
+- `selector`: Elements to be validated. Defaults to `input, textarea, select`.
 
 ## Add a custom validation method
 
@@ -37,11 +52,11 @@ options.methods = {
 };
 ```
 
-- `rulename`: The name of the method used to identify it and referencing it; this must be a valid JavaScript identifier, e.g. `rangelength`
-- `value`: the current value of the validated element
-- `elem`: the element to be validated
-- `param`: the value of `data-rule-rulename` on the `elem`，parameters specified for the method
-- `root`: The root DOM element that the Vue instance is managing
+- `rulename`: The name of the method used to identify it and referencing it; this must be a valid JavaScript identifier, e.g. `rangelength`.
+- `value`: the current value of the validated element.
+- `elem`: the element to be validated.
+- `param`: the value of `data-rule-rulename` on the `elem`，parameters specified for the method.
+- `root`: The root DOM element that the Vue instance is managing.
 
 ## List of built-in Validation methods
 
