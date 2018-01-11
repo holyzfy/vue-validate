@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Demo</title>
+<style>
+input {
+    width: 200px;
+}
+.error {
+    color: #f00;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script src="https://vuejs.org/js/vue.js"></script>
+<script src="../dist/vue-validate-0.1.0.js"></script>
+</head>
+
+<body>
+<form action="" id="form" @submit.prevent="submit">
+    <p>
+        <input
+            data-rule-required="true" data-message-required="Mobile number is required"
+            data-rule-mobile="true" data-message-mobile="Place enter a valid mobile number"
+            type="text" name="mobile" placeholder="Mobile e.g. 13800138000">
+        <span v-if="errors.mobile" class="error">{{errors.mobile}}</span>
+    </p>
+    <p>
+        <input
+            data-rule-required="true" data-message-required="Password is required"
+            data-rule-rangelength="6,16" data-message-rangelength="Place enter a password between {0} and {1} characters long"
+            name="password" type="password" placeholder="Password">
+            <span v-if="errors.password" class="error">{{errors.password}}</span>
+    </p>
+    <p><button type="submit">Login</button></p>
+</form>
+<script>
+var options = {};
+var vm = new Vue({
+    el: '#form',
+    mixins: [validate(options)],
+    methods: {
+        submit: function () {
+            if (!this.valid()) {
+                return;
+            }
+            alert('Form is valid!');
+        }
+    }
+});
+</script>
+</body>
+</html>
