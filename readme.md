@@ -72,4 +72,4 @@ options.methods = {
 
 ## Credits
 
-This project was inspired by [jquery-validation](https://github.com/jquery-validation/jquery-validation)
+This project was inspired by [jquery-validation](https://github.com/jquery-validation/jquery-validation).
