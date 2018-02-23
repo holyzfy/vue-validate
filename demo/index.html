@@ -32,6 +32,13 @@ input {
             name="password" type="password" placeholder="Password">
             <span v-if="errors.password" class="error">{{errors.password}}</span>
     </p>
+    <p>
+        <input
+            data-rule-required="true" data-message-required="Confirm password is required"
+            data-rule-equalto="[name='password']" data-message-equalto="Please enter the same password again"
+            name="confirmPassword" type="password" placeholder="Password">
+            <span v-if="errors.confirmPassword" class="error">{{errors.confirmPassword}}</span>
+    </p>
     <p><button type="submit">Login</button></p>
 </form>
 <script>

@@ -61,14 +61,14 @@ function getValidate(options) {
         mounted: mounted,
         methods: {
             valid: function (selector) {
-                var self = this;
+                var context = this;
                 selector = selector || 'input, textarea, select';
-                var $fieldList = $(self.$el).find(selector).trigger('check');
+                var $fieldList = $(context.$el).find(selector).trigger('check');
                 var errors = {};
                 $fieldList.each(function () {
                     var name = $(this).attr('name');
-                    if(self.errors[name]) {
-                        errors[name] = self.errors[name];
+                    if(context.errors[name]) {
+                        errors[name] = context.errors[name];
                     }
                 });
                 return $.isEmptyObject(errors);
@@ -148,7 +148,7 @@ function validateField(context, event) {
 
 function getRules(field) {
     var rules = {};
-    $.each($(field).data(), function (key, value) {
+    $.each(field.dataset, function (key, value) {
         if(key.slice(0, 4) === 'rule') {
             var name = key.slice(4).toLowerCase();
             rules[name] = value;

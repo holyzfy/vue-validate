@@ -1,11 +1,12 @@
 {
   "name": "vue-validate",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "vue-validate is a lightweight, extensible form validation mixin for Vue components.",
   "main": "validate.js",
   "scripts": {
     "precommit": "node_modules/.bin/eslint validate.js",
     "prebuild": "rm -rf dist/*.js",
+    "dev": "./node_modules/.bin/babel validate.js --out-file dist/vue-validate-${npm_package_version}.js --source-maps inline --watch",
     "build": "./node_modules/.bin/babel validate.js --out-file dist/vue-validate-${npm_package_version}.js --source-maps inline",
     "postbuild": "./node_modules/.bin/babel validate.js --out-file dist/vue-validate-${npm_package_version}.min.js --minified",
     "test": "echo \"Error: no test specified\" && exit 1"
