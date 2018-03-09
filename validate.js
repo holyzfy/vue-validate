@@ -148,7 +148,7 @@ function validateField(context, event) {
 
 function getRules(field) {
     var rules = {};
-    $.each(field.dataset, function (key, value) {
+    $.each($(field).data(), function (key, value) {
         if(key.slice(0, 4) === 'rule') {
             var name = key.slice(4).toLowerCase();
             rules[name] = value;

@@ -4,6 +4,8 @@ vue-validate is a lightweight, extensible form validation mixin for Vue componen
 
 ## Usage
 
+require **jQuery** and **Vue**.
+
 You have to set `name` for field, you could use like this [demo](https://holyzfy.github.io/vue-validate/demo/index.html).
 
 ```js
