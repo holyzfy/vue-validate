@@ -1,4 +1,5 @@
 {
+    "moduleId": "validate",
     "presets": ["env"],
     "plugins": [
         "add-module-exports",
