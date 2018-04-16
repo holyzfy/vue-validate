@@ -37,11 +37,11 @@
         equalto: function equalto(value, elem, param, root) {
             return optional(elem) || value === (0, _jQuery2.default)(elem).closest(root).find(param).val();
         },
-        mix: function mix(value, elem, param) {
-            return optional(elem) || value >= param;
+        min: function min(value, elem, param) {
+            return optional(elem) || +value >= param;
         },
         max: function max(value, elem, param) {
-            return optional(elem) || value <= param;
+            return optional(elem) || +value <= param;
         },
         minlength: function minlength(value, elem, param, root) {
             var length = _jQuery2.default.isArray(value) ? value.length : getLength(value, elem, root);
@@ -56,7 +56,7 @@
             if (!range) {
                 return true;
             }
-            return optional(elem) || value >= range[0] && value <= range[1];
+            return optional(elem) || +value >= range[0] && +value <= range[1];
         },
         rangelength: function rangelength(value, elem, param, root) {
             var range = getRange(param);
@@ -77,12 +77,6 @@
                 return {
                     errors: {}
                 };
-            },
-            computed: {
-                isValid: function isValid() {
-                    var errors = JSON.parse(JSON.stringify(this.errors));
-                    return _jQuery2.default.isEmptyObject(errors);
-                }
             },
             mounted: mounted,
             methods: {

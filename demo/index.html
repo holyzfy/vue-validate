@@ -15,7 +15,7 @@ input {
 </style>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://vuejs.org/js/vue.js"></script>
-<script src="../dist/vue-validate-0.2.1.js"></script>
+<script src="../dist/vue-validate-0.2.2.js"></script>
 </head>
 
 <body>
@@ -40,6 +40,13 @@ input {
             data-rule-equalto="[name='password']" data-message-equalto="Please enter the same password again"
             name="confirmPassword" type="password" placeholder="Password">
             <span v-if="errors.confirmPassword" class="error">{{errors.confirmPassword}}</span>
+    </p>
+    <p>
+        <input
+            data-rule-required="true" data-message-required="Place enter the price"
+            data-rule-min="0.01" data-message-min="price must great or equal 0.01"
+            type="text" name="price" placeholder="Place enter the price">
+        <span v-if="errors.price" class="error">{{errors.price}}</span>
     </p>
     <p><button type="submit">Login</button></p>
 </form>

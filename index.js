@@ -11,11 +11,11 @@ var methods = {
     equalto: function (value, elem, param, root) {
         return optional(elem) || value === $(elem).closest(root).find(param).val();
     },
-    mix: function (value, elem, param) {
-        return optional(elem) || value >= param;
+    min: function (value, elem, param) {
+        return optional(elem) || +value >= param;
     },
     max: function (value, elem, param) {
-        return optional(elem) || value <= param;
+        return optional(elem) || +value <= param;
     },
     minlength: function (value, elem, param, root) {
         var length = $.isArray( value ) ? value.length : getLength(value, elem, root);
@@ -30,7 +30,7 @@ var methods = {
         if(!range) {
             return true;
         }
-        return optional(elem) || (value >= range[0] && value <= range[1]);
+        return optional(elem) || (+value >= range[0] && +value <= range[1]);
     },
     rangelength: function (value, elem, param, root) {
         var range = getRange(param);
@@ -51,12 +51,6 @@ function getValidate(options) {
             return {
                 errors: {}
             };
-        },
-        computed: {
-            isValid: function () {
-                var errors = JSON.parse(JSON.stringify(this.errors));
-                return $.isEmptyObject(errors);
-            }
         },
         mounted: mounted,
         methods: {
