@@ -2,65 +2,83 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, maximum-scale=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="renderer" content="webkit" />
 <title>Demo</title>
 <style>
-input {
-    width: 200px;
+[v-cloak] {
+    display: none;
+}
+ul {
+    list-style-type: none;
+}
+li + li {
+    margin-top: 1rem;
+}
+.text {
+    display: block;
+}
+span.required {
+    color: #f00;
 }
 .error {
+    background: rgba(255, 0, 0, 0.2);
+}
+.errormsg {
     color: #f00;
 }
 </style>
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://vuejs.org/js/vue.js"></script>
-<script src="../dist/vue-validate-0.2.2.js"></script>
+<script src="../dist/vue-validate-0.3.0.js"></script>
 </head>
 
 <body>
-<form action="" id="form" @submit.prevent="submit">
-    <p>
-        <input
-            data-rule-required="true" data-message-required="Mobile number is required"
-            data-rule-mobile="true" data-message-mobile="Place enter a valid mobile number"
-            type="text" name="mobile" placeholder="Mobile e.g. 13800138000">
-        <span v-if="errors.mobile" class="error">{{errors.mobile}}</span>
-    </p>
-    <p>
-        <input
-            data-rule-required="true" data-message-required="Password is required"
-            data-rule-rangelength="6,16" data-message-rangelength="Place enter a password between {0} and {1} characters long"
-            name="password" type="password" placeholder="Password">
-            <span v-if="errors.password" class="error">{{errors.password}}</span>
-    </p>
-    <p>
-        <input
-            data-rule-required="true" data-message-required="Confirm password is required"
-            data-rule-equalto="[name='password']" data-message-equalto="Please enter the same password again"
-            name="confirmPassword" type="password" placeholder="Password">
-            <span v-if="errors.confirmPassword" class="error">{{errors.confirmPassword}}</span>
-    </p>
-    <p>
-        <input
-            data-rule-required="true" data-message-required="Place enter the price"
-            data-rule-min="0.01" data-message-min="price must great or equal 0.01"
-            type="text" name="price" placeholder="Place enter the price">
-        <span v-if="errors.price" class="error">{{errors.price}}</span>
-    </p>
-    <p><button type="submit">Login</button></p>
+<form action="" id="form" @submit.prevent="submit" v-cloak>
+    <ul>
+        <li>
+            <label class="text">Title <span class="required">*</span></label>
+            <label><input type="radio" name="title" value="Mr" required :class="{error: errors.title}"> Mr</label>
+            <label><input type="radio" name="title" value="Ms" required :class="{error: errors.title}"> Ms</label>
+            <div class="errormsg" v-if="errors.title">{{errors.title.message}}</div>
+        </li>
+        <li>
+            <label class="text">How old are you? <span class="required">*</span></label>
+            <input type="number" min="1" max="180" step="1" name="age" required :class="{error: errors.age}">
+            <div class="errormsg" v-if="errors.age">{{errors.age.message}}</div>
+        </li>
+        <li>
+            <label class="text">What's your favorite fruit? <span class="required">*</span></label>
+            <select name="fruit" required :class="{error: errors.fruit}">
+                <option></option>
+                <option>Banana</option>
+                <option>Cherry</option>
+                <option>Apple</option>
+                <option>Strawberry</option>
+                <option>Lemon</option>
+                <option>Orange</option>
+            </select>
+            <div v-if="errors.fruit" class="errormsg">{{errors.fruit.message}}</div>
+        </li>
+        <li>
+            <label class="text">What's your e-mail? <span class="required">*</span></label>
+            <input type="email" name="email" :class="{error: errors.email}" required data-lazy="true">
+            <div v-if="errors.email" class="errormsg">{{errors.email.message}}</div>
+        </li>
+        <li>
+            <label class="text">Leave a short message</label>
+            <textarea name="message" maxlength="50" rows="5"></textarea>
+        </li>
+        <li><button type="submit">submit</button></li>
+    </ul>
 </form>
 <script>
-var options = {};
 var vm = new Vue({
     el: '#form',
-    mixins: [validate(options)],
+    mixins: [validate()],
     methods: {
         submit: function () {
-            if (!this.valid()) {
-                return;
-            }
-            alert('Form is valid!');
+            alert('TODO submit');
         }
     }
 });

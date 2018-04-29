@@ -1,12 +1,10 @@
 # vue-validate
 
-vue-validate is a lightweight, extensible form validation mixin for Vue components.
+vue-validate is a lightweight validation mixin, by using built-in HTML5 form validation features.
 
 ## Usage
 
-require **jQuery** and **Vue**.
-
-You have to set `name` for field, you could use like this [demo](https://holyzfy.github.io/vue-validate/demo/index.html).
+You have to set `name` attribute for form elements, you could use like this [demo](https://holyzfy.github.io/vue-validate/demo/index.html).
 
 ```js
 var vm = new Vue({
@@ -14,64 +12,58 @@ var vm = new Vue({
     mixins: [validate(options)],
     methods: {
         submit: function () {
-            if (!this.valid()) {
-                return;
-            }
-            alert('Form is valid!');
+            alert('TODO submit');
         }
     }
 });
 ```
 
-Vue instances `vm` expose a property `errors` and a method `valid(selector)`.
+### `options.disableNativeValidationUI`
+
+Suppress the native validation bubbles. (Default: `true`)
+
+By default, Validate elements after each `input` event, You can add the `data-lazy="true"` attribute to instead sync after `change` events:
+
+```html
+<input type="email" name="email" data-lazy="true">
+```
+
+Vue instances `vm` expose a property `errors` and a method `valid()`.
 
 ### `vm.errors`
 
-One or more key/value pairs of input names and messages, e.g.:
+One or more key/value pairs, the value consists of input name, validity state and message:
 
 ```js
 {
-    username: 'Username is already existed',
-    phone: 'Phone number is required'
+    age: {
+        state: 'valueMissing',
+        message: 'Please fill out this field.'
+    },
+    email: {
+        state: 'typeMismatch',
+        message: "Please include an '@' in the email address. 'a' is missing an '@'."
+    }
 }
 ```
 
-### `vm.valid(selector)`
+A validity state has the following values:
 
-Checks whether the selected form is valid or whether all selected elements are valid, returning true if an element is valid. 
+- **valueMissing**:When a control has no value but has a required attribute (`input required, textarea required`); or, more complicated rules for select elements and controls in radio button groups, as specified in their sections.
+- **typeMismatch**: When a control that allows arbitrary user input has a value that is not in the correct syntax (E-mail, URL).
+- **patternMismatch**: When a control has a value that doesn't satisfy the `pattern` attribute.
+- **tooLong**: When a control has a value that is too long for the form control `maxlength` attribute (`input maxlength, textarea maxlength`).
+- **tooShort**: When a control has a value that is too short for the form control `minlength` attribute (`input minlength, textarea minlength`).
+- **rangeUnderflow**: When a control has a value that is not the empty string and is too low for the `min` attribute.
+- **rangeOverflow**: When a control has a value that is not the empty string and is too high for the `max` attribute.
+- **stepMismatch**: When a control has a value that doesn't fit the rules given by the `step` attribute.
+- **badInput**: When a control has incomplete input and the user agent does not think the user ought to be able to submit the form in its current state.
+- **customError**: When a control's custom validity error message (as set by the element's [setCustomValidity()](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#dom-cva-setcustomvalidity) method) is not the empty string.
 
-- `selector`: Elements to be validated. Defaults to `input, textarea, select`.
+### `vm.valid()`
 
-## Add a custom validation method
+Returns `true` if the form has no validity problems, `false` otherwise.
 
-Merge one or more methods to `options.methods`, returning true if an element is valid. 
+## Browser compatibility
 
-```js
-options.methods = {
-    rulename: function (value, elem, param, root) {
-        return boolean;
-    }
-};
-```
-
-- `rulename`: The name of the method used to identify it and referencing it; this must be a valid JavaScript identifier, e.g. `rangelength`.
-- `value`: the current value of the validated element.
-- `elem`: the element to be validated.
-- `param`: the value of `data-rule-rulename` on the `elem`，parameters specified for the method.
-- `root`: The root DOM element that the Vue instance is managing.
-
-## List of built-in Validation methods
-
-- `required`: Makes the element required.
-- `mobile`: Makes the element require a valid mobile (start with `1` and the length is 11).
-- `equalto`: Requires the element to be the same as another one.
-- `min`: Makes the element require a given minimum.
-- `max`: Makes the element require a given maximum.
-- `minlength`: Makes the element require a given minimum length.
-- `maxlength`: Makes the element require a given maximum length.
-- `range`: Makes the element require a given value range.
-- `rangelength`: Makes the element require a given value range.
-
-## Credits
-
-This project was inspired by [jquery-validation](https://github.com/jquery-validation/jquery-validation).
+https://caniuse.com/#feat=form-validation
