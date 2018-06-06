@@ -57,7 +57,15 @@
 
             methods: {
                 valid: function valid() {
-                    return this.$el.checkValidity();
+                    var list = Array.from(this.$el.querySelectorAll('input, textarea, select'));
+                    list.forEach(function (item) {
+                        return item.checkValidity();
+                    });
+                    return list.map(function (item) {
+                        return item.validity.valid;
+                    }).filter(function (valid) {
+                        return !valid;
+                    }).length === 0;
                 }
             }
         };

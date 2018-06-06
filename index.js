@@ -24,7 +24,7 @@ function getValidate(config) {
                     check.bind(context)(event);
                 }
             });
-            form.addEventListener( "invalid", event => {
+            form.addEventListener("invalid", event => {
                 // The invalid event does not bubble, 
                 // so if you want to prevent the native validation bubbles on multiple elements
                 // you must attach a capture-phase listener.
@@ -38,7 +38,9 @@ function getValidate(config) {
         },
         methods: {
             valid() {
-                return this.$el.checkValidity();
+                var list = Array.from(this.$el.querySelectorAll('input, textarea, select'));
+                list.forEach(item => item.checkValidity());
+                return list.map(item => item.validity.valid).filter(valid => !valid).length === 0;
             }
         }
     };
