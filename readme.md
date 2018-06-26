@@ -71,6 +71,7 @@ options.methods = {
 - `maxlength`: Makes the element require a given maximum length.
 - `range`: Makes the element require a given value range.
 - `rangelength`: Makes the element require a given value range.
+- `pattern`: Makes the element matches pattern
 
 ## Credits
 

@@ -5,6 +5,9 @@ var methods = {
     required: function (value, elem, param) {
         return value.length > 0;
     },
+    pattern: function (value, elem, param) {
+        return optional(elem) || (new RegExp(param)).test(value);
+    },
     mobile: function (value, elem, param) {
         return optional(elem) || /^1\d{10}$/.test(value);
     },
@@ -46,7 +49,6 @@ function getValidate(options) {
     options = options || {};
     $.extend(methods, options.methods);
     return {
-        name: 'validate',
         data: function () {
             return {
                 errors: {}

@@ -31,6 +31,9 @@
         required: function required(value, elem, param) {
             return value.length > 0;
         },
+        pattern: function pattern(value, elem, param) {
+            return optional(elem) || new RegExp(param).test(value);
+        },
         mobile: function mobile(value, elem, param) {
             return optional(elem) || /^1\d{10}$/.test(value);
         },
@@ -72,7 +75,6 @@
         options = options || {};
         _jQuery2.default.extend(methods, options.methods);
         return {
-            name: 'validate',
             data: function data() {
                 return {
                     errors: {}
