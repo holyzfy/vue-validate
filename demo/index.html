@@ -6,7 +6,7 @@
 <meta name="renderer" content="webkit" />
 <title>Demo</title>
 <style>
-input {
+input[type="text"] {
     width: 200px;
 }
 .error {
@@ -15,11 +15,31 @@ input {
 </style>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://vuejs.org/js/vue.js"></script>
-<script src="../dist/vue-validate-0.2.2.js"></script>
+<script src="../dist/vue-validate-0.2.3.js"></script>
 </head>
 
 <body>
 <form action="" id="form" @submit.prevent="submit">
+    <p>
+        <label>Gender:</label>
+        <label><input type="radio" name="gender" value="m" data-rule-required="true" data-message-required="Plese check this one"> Male</label>
+        <label><input type="radio" name="gender" value="f" data-rule-required="true" data-message-required="Plese check this one"> Female</label>
+        <span v-if="errors.gender" class="error">{{errors.gender}}</span>
+    </p>
+    <p>
+        <label><input type="checkbox" name="agree" data-rule-required="true" data-message-required="Please agree to our policy"> Agree to our policy</label>
+        <span v-if="errors.agree" class="error">{{errors.agree}}</span>
+    </p>
+    <p>
+        <select name="fruit" data-rule-required="true" data-message-required="Please select a fruit">
+            <option value="">Please select a fruit</option>
+            <option value="Banana">Banana</option>
+            <option value="Apple">Apple</option>
+            <option value="Peach">Peach</option>
+            <option value="Turtle">Turtle</option>
+        </select>
+        <span v-if="errors.fruit" class="error">Please select a fruit</span>
+    </p>
     <p>
         <input
             data-rule-required="true" data-message-required="Mobile number is required"

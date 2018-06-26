@@ -2,7 +2,14 @@ import $ from 'jQuery';
 import Vue from 'Vue';
 
 var methods = {
-    required: function (value, elem, param) {
+    required: function (value, elem, param, root) {
+        if (elem.nodeName.toLowerCase() === "select") {
+            var val = $(elem).val();
+            return val && val.length > 0;
+        }
+        if(checkable(elem)) {
+            return getLength(value, elem, root) > 0;
+        }
         return value.length > 0;
     },
     pattern: function (value, elem, param) {
