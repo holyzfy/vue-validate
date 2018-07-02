@@ -114,7 +114,7 @@ function optional(elem) {
 function mounted() {
     var context = this;
     var selector = 'input, textarea, select';
-    $(context.$el).on('focusout check', selector, function (event) {
+    $(context.$el).on('change check', selector, function (event) {
         validateField(context, event);
     }).on('focusin keyup', function (event) {
         var isTab = (event.key || '').toLowerCase() === 'tab' || event.keyCode === 9;
