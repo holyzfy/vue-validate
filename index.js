@@ -2,45 +2,51 @@ function getValidate(config) {
     var options = {
         disableNativeValidationUI: true
     };
-    Object.assign(options, config);
+    for(var key in config) {
+        options[key] = config[key];
+    }
+
     return {
         data() {
             return {
                 errors: {}
             };
         },
-        mounted() {
-            var context = this;
-            var form = context.$el;
-            form.addEventListener('input', event => {
-                if(!event.target.dataset.lazy) {
-                    check.bind(context)(event);
-                }
-            });
-            form.addEventListener('change', event => {
-                var elem = event.target;
-                var checked = ['checkbox', 'radio'].indexOf(elem.type) >= 0;
-                if(checked || elem.dataset.lazy) {
-                    check.bind(context)(event);
-                }
-            });
-            form.addEventListener("invalid", event => {
-                // The invalid event does not bubble, 
-                // so if you want to prevent the native validation bubbles on multiple elements
-                // you must attach a capture-phase listener.
-                options.disableNativeValidationUI && event.preventDefault();
-                var elem = event.target;
-                context.$set(context.errors, elem.name, {
-                    state: findState(elem.validity),
-                    message: elem.validationMessage
-                });
-            }, true);
-        },
         methods: {
             valid() {
-                var list = Array.from(this.$el.querySelectorAll('input, textarea, select'));
+                var list = [].slice.call(this.$el.querySelectorAll('input, textarea, select'));
                 list.forEach(item => item.checkValidity());
                 return list.map(item => item.validity.valid).filter(valid => !valid).length === 0;
+            }
+        },
+        directives: {
+            validate: {
+                inserted(el, bindings, vNode) {
+                    var context = vNode.context;
+                    el.addEventListener('input', event => {
+                        if(!event.target.dataset.lazy) {
+                            check.bind(context)(event);
+                        }
+                    });
+                    el.addEventListener('change', event => {
+                        var elem = event.target;
+                        var checked = ['checkbox', 'radio'].indexOf(elem.type) >= 0;
+                        if(checked || elem.dataset.lazy) {
+                            check.bind(context)(event);
+                        }
+                    });
+                    el.addEventListener("invalid", event => {
+                        // The invalid event does not bubble, 
+                        // so if you want to prevent the native validation bubbles on multiple elements
+                        // you must attach a capture-phase listener.
+                        options.disableNativeValidationUI && event.preventDefault();
+                        var elem = event.target;
+                        context.$set(context.errors, elem.name, {
+                            state: findState(elem.validity),
+                            message: elem.validationMessage
+                        });
+                    }, true);
+                }
             }
         }
     };

@@ -4,7 +4,7 @@ vue-validate is a lightweight validation mixin, by using built-in HTML5 form val
 
 ## Usage
 
-You have to set `name` attribute for form elements, you could use like this [demo](https://holyzfy.github.io/vue-validate/demo/index.html).
+You have to set `name` attribute for form elements, you could use like this [demo](https://holyzfy.github.io/vue-validate/demo.html).
 
 ```js
 var vm = new Vue({

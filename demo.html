@@ -30,11 +30,11 @@ span.required {
 }
 </style>
 <script src="https://vuejs.org/js/vue.js"></script>
-<script src="../dist/vue-validate-0.3.1.js"></script>
+<script src="dist/vue-validate.js"></script>
 </head>
 
 <body>
-<form action="" id="form" @submit.prevent="submit" v-cloak>
+<form action="" id="form" @submit.prevent="submit" v-cloak v-validate>
     <ul>
         <li>
             <label class="text">Title <span class="required">*</span></label>
@@ -78,7 +78,7 @@ var vm = new Vue({
     mixins: [validate()],
     methods: {
         submit: function () {
-            alert('TODO submit');
+            alert('Form is valid.');
         }
     }
 });
