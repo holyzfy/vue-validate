@@ -1,4 +1,4 @@
-// https://github.com/holyzfy/vue-validate v0.4.0 Copyright 2018 holyzfy <zhaofuyun202@gmail.com>
+// https://github.com/holyzfy/vue-validate v0.4.1 Copyright 2018 holyzfy <zhaofuyun202@gmail.com>
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
@@ -21,9 +21,10 @@
             },
             methods: {
                 valid() {
-                    var list = [].slice.call(this.$el.querySelectorAll('input, textarea, select'));
+                    var context = this;
+                    var list = [].slice.call(context.$el.querySelectorAll('input, textarea, select'));
                     list.forEach(item => item.checkValidity());
-                    return list.map(item => item.validity.valid).filter(valid => !valid).length === 0;
+                    return Object.keys(context.errors).length === 0;
                 }
             },
             directives: {

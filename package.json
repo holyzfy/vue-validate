@@ -1,10 +1,9 @@
 {
   "name": "vue-validate",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "vue-validate is a lightweight, extensible form validation mixin.",
   "main": "dist/validate.js",
   "scripts": {
-    "precommit": "node_modules/.bin/eslint index.js",
     "dev": "./node_modules/.bin/rollup -c -w",
     "prebuild": "rm -rf dist/*.js",
     "build": "./node_modules/.bin/rollup -c",
@@ -22,5 +21,10 @@
     "husky": "~1.1.2",
     "rollup": "~0.66.6",
     "rollup-plugin-terser": "~3.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "node_modules/.bin/eslint index.js"
+    }
   }
 }

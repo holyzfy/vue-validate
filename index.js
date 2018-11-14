@@ -14,9 +14,10 @@ function getValidate(config) {
         },
         methods: {
             valid() {
-                var list = [].slice.call(this.$el.querySelectorAll('input, textarea, select'));
+                var context = this;
+                var list = [].slice.call(context.$el.querySelectorAll('input, textarea, select'));
                 list.forEach(item => item.checkValidity());
-                return list.map(item => item.validity.valid).filter(valid => !valid).length === 0;
+                return Object.keys(context.errors).length === 0;
             }
         },
         directives: {
