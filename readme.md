@@ -18,10 +18,6 @@ var vm = new Vue({
 });
 ```
 
-### `options.disableNativeValidationUI`
-
-Suppress the native validation bubbles. (Default: `true`)
-
 By default, Validate elements after each `input` event, You can add the `data-lazy="true"` attribute to instead sync after `change` events:
 
 ```html
@@ -29,6 +25,23 @@ By default, Validate elements after each `input` event, You can add the `data-la
 ```
 
 Vue instances `vm` expose a property `errors` and a method `valid()`.
+
+## Add a custom validation method
+
+Merge one or more methods to `options.methods`, returning true if an element is valid.
+
+```js
+options = {
+    rulename: function (value, elem, param) {
+        return boolean;
+    }
+};
+```
+
+- `rulename`: The name of the method used to identify it and referencing it; this must be a valid JavaScript identifier of lower case, e.g. `rangelength`.
+- `value`: the current value of the validated element.
+- `elem`: the element to be validated.
+- `param`: the value of `data-rule-rulename` on the `elem`，parameters specified for the method.
 
 ### `vm.errors`
 

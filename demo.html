@@ -66,19 +66,33 @@ span.required {
             <div v-if="errors.email" class="errormsg">{{errors.email.message}}</div>
         </li>
         <li>
-            <label class="text">Leave a short message</label>
-            <textarea name="message" maxlength="50" rows="5"></textarea>
+            <label class="text">Leave a short comment</label>
+            <textarea name="comment" cols="40" rows="5" data-rule-maxlength2="10" data-message-maxlength2="最多允许{0}个字（一个中文算2个字）" placeholder="最多允许10个字（一个中文算2个字）"></textarea>
+            <p v-if="errors.comment" class="errormsg">{{errors.comment.message}}</p>
         </li>
         <li><button type="submit">submit</button></li>
     </ul>
 </form>
 <script>
+var options = {
+    maxlength2: function (value, elem, param) {
+        return getLength(value) <= param;  
+    } 
+};
+
+function getLength(value) {
+    return Math.ceil(value.replace(/[^\x01-\xFF]/g, '--').length / 2);
+}
+
 var vm = new Vue({
     el: '#form',
-    mixins: [validate()],
+    mixins: [validate(options)],
     methods: {
         submit: function () {
-            alert('Form is valid.');
+            var context = this;
+            if(context.valid()) {
+                alert('Form is valid.');
+            }
         }
     }
 });
