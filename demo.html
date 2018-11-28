@@ -70,6 +70,16 @@ span.required {
             <textarea name="comment" cols="40" rows="5" data-rule-maxlength2="10" data-message-maxlength2="最多允许{0}个字（一个中文算2个字）" placeholder="最多允许10个字（一个中文算2个字）"></textarea>
             <p v-if="errors.comment" class="errormsg">{{errors.comment.message}}</p>
         </li>
+        <li>
+            <label>password</label>
+            <input v-model="password" name="password" type="password" minlength="8" maxlength="16" required>
+            <p v-if="errors.password" class="errormsg">{{errors.password.message}}</p>
+        </li>
+        <li>
+            <label>confirm password</label>
+            <input name="confirmPassword" type="password" required :data-rule-equalto="password" data-message-equalto="两次密码不一致">
+            <p v-if="errors.confirmPassword" class="errormsg">{{errors.confirmPassword.message}}</p>
+        </li>
         <li><button type="submit">submit</button></li>
     </ul>
 </form>
@@ -77,7 +87,10 @@ span.required {
 var options = {
     maxlength2: function (value, elem, param) {
         return getLength(value) <= param;  
-    } 
+    },
+    equalto: function (value, elem, param) {
+        return value === param;
+    }
 };
 
 function getLength(value) {
@@ -87,6 +100,11 @@ function getLength(value) {
 var vm = new Vue({
     el: '#form',
     mixins: [validate(options)],
+    data() {
+        return {
+            password: '' 
+        }; 
+    },
     methods: {
         submit: function () {
             var context = this;

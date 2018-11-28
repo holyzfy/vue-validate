@@ -1,4 +1,4 @@
-// https://github.com/holyzfy/vue-validate v0.4.1 Copyright 2018 holyzfy <zhaofuyun202@gmail.com>
+// https://github.com/holyzfy/vue-validate v0.4.4 Copyright 2018 holyzfy <zhaofuyun202@gmail.com>
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
@@ -19,7 +19,7 @@
                 valid() {
                     var context = this;
                     var list = [].slice.call(context.$el.querySelectorAll('input, textarea, select'));
-                    list.forEach(item => item.checkValidity());
+                    list.forEach(check.bind(context));
                     return Object.keys(context.errors).length === 0;
                 }
             },
@@ -29,14 +29,14 @@
                         var context = vNode.context;
                         el.addEventListener('input', event => {
                             if(!event.target.dataset.lazy) {
-                                check.bind(context)(event);
+                                check.bind(context)(event.target);
                             }
                         });
                         el.addEventListener('change', event => {
                             var elem = event.target;
                             var checked = ['checkbox', 'radio'].indexOf(elem.type) >= 0;
                             if(checked || elem.dataset.lazy) {
-                                check.bind(context)(event);
+                                check.bind(context)(event.target);
                             }
                         });
                         el.addEventListener("invalid", event => {
@@ -56,9 +56,9 @@
         };
     }
 
-    function check(event) {
+    function check(elem) {
         var context = this;
-        var elem = event.target;
+        elem.checkValidity();
         if(elem.validity.valid) {
             context.$delete(context.errors, elem.name);
             checkCustomRoles(context, elem);
@@ -77,7 +77,10 @@
             var valid = methods[key](elem.value, elem, param);
             if(!valid) {
                 var messageKey = 'message' + key[0].toUpperCase() + key.slice(1);
-                var template = elem.dataset[messageKey];
+                var template = elem.dataset[messageKey] || '';
+                if(!template) {
+                    console.warn(`请指定自定义消息的属性 data-message-${key}`, elem); 
+                }
                 var message = format(template, param);
                 context.$set(context.errors, elem.name, {
                     state: 'customError',
