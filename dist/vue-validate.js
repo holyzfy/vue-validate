@@ -79,6 +79,7 @@
                 var messageKey = 'message' + key[0].toUpperCase() + key.slice(1);
                 var template = elem.dataset[messageKey] || '';
                 if(!template) {
+                    // eslint-disable-next-line no-console
                     console.warn(`请指定自定义消息的属性 data-message-${key}`, elem); 
                 }
                 var message = format(template, param);
