@@ -6,6 +6,13 @@ vue-validate is a lightweight validation mixin, by using built-in HTML5 form val
 
 You have to set `name` attribute for form elements, you could use like this [demo](https://holyzfy.github.io/vue-validate/demo.html).
 
+
+```html
+<form v-validate="optionalValue">
+    ...
+</form>
+```
+
 ```js
 var vm = new Vue({
     el: '#form',
@@ -32,7 +39,8 @@ Merge one or more methods to `options.methods`, returning true if an element is 
 
 ```js
 options = {
-    rulename: function (value, elem, param) {
+    // @param bindingValue - The value passed to the directive
+    rulename: function (value, elem, param, bindingValue) {
         return boolean;
     }
 };

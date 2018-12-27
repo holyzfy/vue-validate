@@ -1,4 +1,4 @@
-// https://github.com/holyzfy/vue-validate v0.4.4 Copyright 2018 holyzfy <zhaofuyun202@gmail.com>
+// https://github.com/holyzfy/vue-validate v0.4.5 Copyright 2018 holyzfy <zhaofuyun202@gmail.com>
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
@@ -8,6 +8,7 @@
     var methods = {};
 
     function getValidate(options) {
+        var bindingValue;
         Object.assign(methods, options);
         return {
             data() {
@@ -19,24 +20,25 @@
                 valid() {
                     var context = this;
                     var list = [].slice.call(context.$el.querySelectorAll('input, textarea, select'));
-                    list.forEach(check.bind(context));
+                    list.forEach(el => check.bind(context, el, bindingValue));
                     return Object.keys(context.errors).length === 0;
                 }
             },
             directives: {
                 validate: {
-                    inserted(el, bindings, vNode) {
+                    inserted(el, binding, vNode) {
                         var context = vNode.context;
+                        bindingValue = binding.value;
                         el.addEventListener('input', event => {
                             if(!event.target.dataset.lazy) {
-                                check.bind(context)(event.target);
+                                check.bind(context)(event.target, bindingValue);
                             }
                         });
                         el.addEventListener('change', event => {
                             var elem = event.target;
                             var checked = ['checkbox', 'radio'].indexOf(elem.type) >= 0;
                             if(checked || elem.dataset.lazy) {
-                                check.bind(context)(event.target);
+                                check.bind(context)(event.target, bindingValue);
                             }
                         });
                         el.addEventListener("invalid", event => {
@@ -56,12 +58,12 @@
         };
     }
 
-    function check(elem) {
+    function check(elem, bindingValue) {
         var context = this;
         elem.checkValidity();
         if(elem.validity.valid) {
             context.$delete(context.errors, elem.name);
-            checkCustomRoles(context, elem);
+            checkCustomRoles(context, elem, bindingValue);
         } else {
             context.$set(context.errors, elem.name, {
                 state: findState(elem.validity),
@@ -70,11 +72,11 @@
         }
     }
 
-    function checkCustomRoles(context, elem) {
+    function checkCustomRoles(context, elem, bindingValue) {
         var rules = getRules(elem);
         for(var key in rules) {
             var param = rules[key]; 
-            var valid = methods[key](elem.value, elem, param);
+            var valid = methods[key](elem.value, elem, param, bindingValue);
             if(!valid) {
                 var messageKey = 'message' + key[0].toUpperCase() + key.slice(1);
                 var template = elem.dataset[messageKey] || '';

@@ -1,6 +1,6 @@
 {
   "name": "vue-validate",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "vue-validate is a lightweight, extensible form validation mixin.",
   "main": "dist/validate.js",
   "scripts": {
