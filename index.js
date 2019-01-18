@@ -13,7 +13,7 @@ function getValidate(options) {
             valid() {
                 var context = this;
                 var list = [].slice.call(context.$el.querySelectorAll('input, textarea, select'));
-                list.forEach(el => check.bind(context, el, bindingValue));
+                list.forEach(el => check.call(context, el, bindingValue));
                 return Object.keys(context.errors).length === 0;
             }
         },
