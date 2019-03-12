@@ -2,7 +2,7 @@
   "name": "vue-validate",
   "version": "0.4.6",
   "description": "vue-validate is a lightweight, extensible form validation mixin.",
-  "main": "dist/validate.js",
+  "main": "dist/vue-validate.js",
   "scripts": {
     "dev": "./node_modules/.bin/rollup -c -w",
     "prebuild": "rm -rf dist/*.js",
