@@ -1,40 +1,51 @@
+// https://github.com/holyzfy/vue-validate v0.4.6 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.validate = factory());
+}(this, (function () { 'use strict';
+
 var methods = {};
 
 function getValidate(options) {
     var bindingValue;
-    Object.assign(methods, options);
+    for(var key in options) {
+        methods[key] = options[key];
+    }
     return {
-        data() {
+        data: function () {
             return {
                 errors: {}
             };
         },
         methods: {
-            valid() {
+            valid: function () {
                 var context = this;
                 var list = [].slice.call(context.$el.querySelectorAll('input, textarea, select'));
-                list.forEach(el => check.call(context, el, bindingValue));
+                list.forEach(function (el) {
+                    check.call(context, el, bindingValue);
+                });
                 return Object.keys(context.errors).length === 0;
             }
         },
         directives: {
             validate: {
-                inserted(el, binding, vNode) {
+                inserted: function (el, binding, vNode) {
                     var context = vNode.context;
                     bindingValue = binding.value;
-                    el.addEventListener('input', event => {
+                    el.addEventListener('input', function (event) {
                         if(!event.target.dataset.lazy) {
                             check.bind(context)(event.target, bindingValue);
                         }
                     });
-                    el.addEventListener('change', event => {
+                    el.addEventListener('change', function (event) {
                         var elem = event.target;
                         var checked = ['checkbox', 'radio'].indexOf(elem.type) >= 0;
                         if(checked || elem.dataset.lazy) {
                             check.bind(context)(event.target, bindingValue);
                         }
                     });
-                    el.addEventListener("invalid", event => {
+                    el.addEventListener("invalid", function (event) {
                         // The invalid event does not bubble, 
                         // so if you want to prevent the native validation bubbles on multiple elements
                         // you must attach a capture-phase listener.
@@ -75,7 +86,7 @@ function checkCustomRoles(context, elem, bindingValue) {
             var template = elem.dataset[messageKey] || '';
             if(!template) {
                 // eslint-disable-next-line no-console
-                console.warn(`请指定自定义消息的属性 data-message-${key}`, elem); 
+                console.warn('请指定自定义消息的属性 data-message-' + key, elem); 
             }
             var message = format(template, param);
             context.$set(context.errors, elem.name, {
@@ -114,4 +125,6 @@ function findState(obj) {
     }
 }
 
-export default getValidate;
+return getValidate;
+
+})));
