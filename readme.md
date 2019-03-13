@@ -33,6 +33,15 @@ By default, Validate elements after each `input` event, You can add the `data-la
 
 Vue instances `vm` expose a property `errors` and a method `valid()`.
 
+## List of built-in validation Rules
+
+- `min`
+- `max`
+- `minlength`
+- `maxlength`
+- `minlength2` 至少几个字（两个字母算一个字，一个中文算一个字）
+- `maxlength2`
+
 ## Add a custom validation method
 
 Merge one or more methods to `options.methods`, returning true if an element is valid.

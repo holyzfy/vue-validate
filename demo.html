@@ -29,7 +29,7 @@ span.required {
     color: #f00;
 }
 </style>
-<script src="https://vuejs.org/js/vue.js"></script>
+<script src="libs/vue.js"></script>
 <script src="index.js"></script>
 </head>
 
@@ -44,7 +44,7 @@ span.required {
         </li>
         <li>
             <label class="text">How old are you? <span class="required">*</span></label>
-            <input type="number" min="1" max="180" step="1" name="age" required :class="{error: errors.age}">
+            <input type="number" data-rule-min="1" data-rule-max="130" data-message-min="请输入不小于{0}的数字" data-message-max="请输入不大于{0}的数字" name="age" required :class="{error: errors.age}">
             <div class="errormsg" v-if="errors.age">{{errors.age.message}}</div>
         </li>
         <li>
@@ -72,12 +72,12 @@ span.required {
         </li>
         <li>
             <label>password</label>
-            <input v-model="password" name="password" type="password" minlength="8" maxlength="16" required>
+            <input v-model="password" name="password" type="password" data-rule-minlength="8" data-rule-maxlength="16" maxlength="16" data-message-minlength="最少{0}位" data-message-maxlength="最多{0}位" required>
             <p v-if="errors.password" class="errormsg">{{errors.password.message}}</p>
         </li>
         <li>
             <label>confirm password</label>
-            <input name="confirmPassword" type="password" required :data-rule-equalto="password" data-message-equalto="两次密码不一致">
+            <input name="confirmPassword" type="password" maxlength="16" required :data-rule-equalto="password" data-message-equalto="两次密码不一致">
             <p v-if="errors.confirmPassword" class="errormsg">{{errors.confirmPassword.message}}</p>
         </li>
         <li><button type="submit">submit</button></li>
@@ -100,7 +100,7 @@ function getLength(value) {
 var vm = new Vue({
     el: '#form',
     mixins: [validate(options)],
-    data() {
+    data: function () {
         return {
             password: '' 
         }; 

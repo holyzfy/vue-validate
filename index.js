@@ -5,7 +5,30 @@
     (global.validate = factory());
 }(this, (function () { 'use strict';
 
-var methods = {};
+var methods = {
+    min: function (value, elem, param) {
+        return parseFloat(value) >= param;  
+    },
+    max: function (value, elem, param) {
+        return parseFloat(value) <= param;  
+    },
+    minlength: function (value, elem, param) {
+        return value.length >= param;  
+    },
+    maxlength: function (value, elem, param) {
+        return value.length <= param;  
+    },
+    minlength2: function (value, elem, param) {
+        return getLength(value) >= param;  
+    },
+    maxlength2: function (value, elem, param) {
+        return getLength(value) <= param;  
+    },
+};
+
+function getLength(value) {
+    return Math.ceil(value.replace(/[^\x01-\xFF]/g, '--').length / 2);
+}
 
 function getValidate(options) {
     var bindingValue;
@@ -34,14 +57,15 @@ function getValidate(options) {
                     var context = vNode.context;
                     bindingValue = binding.value;
                     el.addEventListener('input', function (event) {
-                        if(!event.target.dataset.lazy) {
+                        var lazy = dataset(event.target, 'lazy')
+                        if(!lazy) {
                             check.bind(context)(event.target, bindingValue);
                         }
                     });
                     el.addEventListener('change', function (event) {
                         var elem = event.target;
                         var checked = ['checkbox', 'radio'].indexOf(elem.type) >= 0;
-                        if(checked || elem.dataset.lazy) {
+                        if(checked || dataset(elem, 'lazy')) {
                             check.bind(context)(event.target, bindingValue);
                         }
                     });
@@ -83,7 +107,7 @@ function checkCustomRoles(context, elem, bindingValue) {
         var valid = methods[key](elem.value, elem, param, bindingValue);
         if(!valid) {
             var messageKey = 'message' + key[0].toUpperCase() + key.slice(1);
-            var template = elem.dataset[messageKey] || '';
+            var template = dataset(elem, messageKey) || '';
             if(!template) {
                 // eslint-disable-next-line no-console
                 console.warn('请指定自定义消息的属性 data-message-' + key, elem); 
@@ -91,7 +115,7 @@ function checkCustomRoles(context, elem, bindingValue) {
             var message = format(template, param);
             context.$set(context.errors, elem.name, {
                 state: 'customError',
-                message
+                message: message
             });
         }
     }
@@ -99,11 +123,11 @@ function checkCustomRoles(context, elem, bindingValue) {
 
 function getRules(field) {
     var rules = {};
-    var dataset = field.dataset;
-    for(var key in dataset) {
+    var pairs = dataset(field);
+    for(var key in pairs) {
         if(key.slice(0, 4) === 'rule') {
             var name = key.slice(4).toLowerCase();
-            rules[name] = dataset[key];
+            rules[name] = pairs[key];
         } 
     }
     return rules;
@@ -123,6 +147,31 @@ function findState(obj) {
             return key;
         }
     }
+}
+
+function dataset(element, name) {
+    var obj = {};
+
+    if(element.dataset) {
+        obj = element.dataset;
+    } else {
+        for(var i = 0; i < element.attributes.length; i++) {
+            var key = element.attributes[i].nodeName;
+            if(/^data-.+$/.test(key)) {
+                var value = element.attributes[i].nodeValue;
+                var keyName = toCamel(key.match(/^data-(.+)/)[1]);
+                obj[keyName] = value;
+            }
+        }
+    }
+
+    return name ? obj[name] : obj;
+}
+
+function toCamel(str) {
+    return str.replace(/[_-](\w|$)/g, function (match, value) {
+        return value.toUpperCase();
+    });
 }
 
 return getValidate;
