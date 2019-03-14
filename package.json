@@ -2,7 +2,7 @@
   "name": "vue-validate",
   "version": "0.5.0",
   "description": "vue-validate is a lightweight, extensible form validation mixin.",
-  "main": "dist/vue-validate.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
