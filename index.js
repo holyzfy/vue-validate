@@ -19,15 +19,17 @@ var methods = {
         return value.length <= param;  
     },
     minlength2: function (value, elem, param) {
-        return getLength(value) >= param;  
+        var length = Math.floor(getLength(value));
+        return length >= param;  
     },
     maxlength2: function (value, elem, param) {
-        return getLength(value) <= param;  
+        var length = Math.ceil(getLength(value));
+        return length <= param;  
     },
 };
 
 function getLength(value) {
-    return Math.ceil(value.replace(/[^\x01-\xFF]/g, '--').length / 2);
+    return value.replace(/[^\x01-\xFF]/g, '--').length / 2;
 }
 
 function getValidate(options) {

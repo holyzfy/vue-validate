@@ -67,7 +67,10 @@ span.required {
         </li>
         <li>
             <label class="text">Leave a short comment</label>
-            <textarea name="comment" cols="40" rows="5" data-rule-maxlength2="10" data-message-maxlength2="最多允许{0}个字（一个中文算2个字）" placeholder="最多允许10个字（一个中文算2个字）"></textarea>
+            <textarea name="comment" cols="40" rows="5"
+                 data-rule-minlength2="2" data-message-minlength2="最少{0}个字（一个中文算2个字）"
+                data-rule-maxlength2="10" data-message-maxlength2="最多允许{0}个字（一个中文算2个字）"
+                placeholder="4~10个字（一个中文算2个字）"></textarea>
             <p v-if="errors.comment" class="errormsg">{{errors.comment.message}}</p>
         </li>
         <li>
