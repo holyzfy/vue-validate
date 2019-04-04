@@ -1,4 +1,4 @@
-// https://github.com/holyzfy/vue-validate v0.4.6 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
+// https://github.com/holyzfy/vue-validate v0.4.7 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
@@ -58,7 +58,12 @@ function getValidate(options) {
                 inserted: function (el, binding, vNode) {
                     var context = vNode.context;
                     bindingValue = binding.value;
-                    el.addEventListener('input', function (event) {
+                    // IE 10 and IE 11 have a bug where the input event fires on placeholder attribute changes.
+                    el.addEventListener('keyup', function (event) {
+                        var list = ['esc', 'tab', 'capslock', 'numlock', 'enter', 'left', 'right', 'up', 'down', 'alt', 'control', 'shift'];
+                        if(list.indexOf(event.key.toLowerCase()) >= 0) {
+                            return;
+                        }
                         var lazy = dataset(event.target, 'lazy')
                         if(!lazy) {
                             check.bind(context)(event.target, bindingValue);
