@@ -1,4 +1,4 @@
-// https://github.com/holyzfy/vue-validate v0.4.7 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
+// https://github.com/holyzfy/vue-validate v0.5.2 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
