@@ -1,4 +1,4 @@
-// https://github.com/holyzfy/vue-validate v0.5.3 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
+// https://github.com/holyzfy/vue-validate v0.5.4 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
@@ -44,9 +44,12 @@ function getValidate(options) {
             };
         },
         methods: {
-            valid: function () {
+            valid: function (selector) {
                 var context = this;
-                var list = [].slice.call(context.$el.querySelectorAll('input, textarea, select'));
+                var fields = [];
+                selector = selector || 'input, textarea, select';
+                var fields = (typeof selector === 'string') ? context.$el.querySelectorAll(selector) : selector;
+                var list = [].concat(fields);
                 list.forEach(function (el) {
                     check.call(context, el, bindingValue);
                 });

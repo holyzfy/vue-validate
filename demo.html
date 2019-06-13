@@ -74,9 +74,18 @@ span.required {
             <p v-if="errors.comment" class="errormsg">{{errors.comment.message}}</p>
         </li>
         <li>
+            <label class="text">username</label>
+            <input type="text" name="username"
+                data-rule-minlength2="2" data-message-minlength2="最少{0}个字（一个中文算2个字）"
+                data-rule-maxlength2="10" data-message-maxlength2="最多允许{0}个字（一个中文算2个字）"
+                placeholder="4~10个字（一个中文算2个字）" autocomplete="off">
+            <p v-if="errors.username" class="errormsg">{{errors.username.message}}</p>
+        </li>
+        <li>
             <label>password</label>
-            <input v-model="password" name="password" type="password" data-rule-minlength="8" data-rule-maxlength="16" maxlength="16" data-message-minlength="最少{0}位" data-message-maxlength="最多{0}位" required>
+            <input v-model="password" name="password" type="password" ref="password" data-rule-minlength="8" data-rule-maxlength="16" maxlength="16" data-message-minlength="最少{0}位" data-message-maxlength="最多{0}位" required>
             <p v-if="errors.password" class="errormsg">{{errors.password.message}}</p>
+            <p><button type="button" @click="checkPassword">check password</button></p>
         </li>
         <li>
             <label>confirm password</label>
@@ -109,6 +118,10 @@ var vm = new Vue({
         }; 
     },
     methods: {
+        checkPassword: function () {
+            var context = this;
+            alert(context.valid(context.$refs.password));
+        },
         submit: function () {
             var context = this;
             if(context.valid()) {

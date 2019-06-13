@@ -31,7 +31,7 @@ By default, Validate elements after each `input` event, You can add the `data-la
 <input type="email" name="email" data-lazy="true">
 ```
 
-Vue instances `vm` expose a property `errors` and a method `valid()`.
+Vue instances `vm` expose a property `errors` and a method `valid(selector)`.
 
 ## List of built-in validation Rules
 
@@ -90,9 +90,11 @@ A validity state has the following values:
 - **badInput**: When a control has incomplete input and the user agent does not think the user ought to be able to submit the form in its current state.
 - **customError**: When a control's custom validity error message (as set by the element's [setCustomValidity()](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#dom-cva-setcustomvalidity) method) is not the empty string.
 
-### `vm.valid()`
+### `vm.valid(selector)`
 
-Returns `true` if the form has no validity problems, `false` otherwise.
+- `selector`: Element or css selector
+
+Returns `true` if the selector has no validity problems, `false` otherwise.
 
 ## Browser compatibility
 
