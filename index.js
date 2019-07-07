@@ -1,4 +1,4 @@
-// https://github.com/holyzfy/vue-validate v0.5.4 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
+// https://github.com/holyzfy/vue-validate v0.5.5 Copyright 2019 holyzfy <zhaofuyun202@gmail.com>
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
@@ -50,10 +50,14 @@ function getValidate(options) {
                 selector = selector || 'input, textarea, select';
                 var fields = (typeof selector === 'string') ? context.$el.querySelectorAll(selector) : selector;
                 var list = [].concat(fields);
+                var hasError = true;
                 list.forEach(function (el) {
                     check.call(context, el, bindingValue);
+                    if(context.errors[el.name]) {
+                        hasError = false;
+                    }
                 });
-                return Object.keys(context.errors).length === 0;
+                return hasError;
             }
         },
         directives: {
@@ -73,11 +77,7 @@ function getValidate(options) {
                         }
                     });
                     el.addEventListener('change', function (event) {
-                        var elem = event.target;
-                        var checked = ['checkbox', 'radio'].indexOf(elem.type) >= 0;
-                        if(checked || dataset(elem, 'lazy')) {
-                            check.bind(context)(event.target, bindingValue);
-                        }
+                        check.bind(context)(event.target, bindingValue);
                     });
                     el.addEventListener("invalid", function (event) {
                         // The invalid event does not bubble, 
@@ -111,6 +111,9 @@ function check(elem, bindingValue) {
 }
 
 function checkCustomRoles(context, elem, bindingValue) {
+    if(!elem.value && !elem.required) {
+        return;
+    }
     var rules = getRules(elem);
     for(var key in rules) {
         var param = rules[key]; 
