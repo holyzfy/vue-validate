@@ -49,7 +49,7 @@ function getValidate(options) {
                 var fields = [];
                 selector = selector || 'input, textarea, select';
                 var fields = (typeof selector === 'string') ? context.$el.querySelectorAll(selector) : selector;
-                var list = [].concat(fields);
+                var list = [].slice.call(fields);
                 var hasError = true;
                 list.forEach(function (el) {
                     check.call(context, el, bindingValue);
