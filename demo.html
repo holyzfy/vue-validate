@@ -82,7 +82,7 @@ span.required {
             <p v-if="errors.username" class="errormsg">{{errors.username.message}}</p>
         </li>
         <li>
-            <label>password</label>
+            <label>password <span class="required">*</span></label>
             <input v-model="password" name="password" type="password" ref="password" data-rule-minlength="8" data-rule-maxlength="16" maxlength="16" data-message-minlength="最少{0}位" data-message-maxlength="最多{0}位" required>
             <p v-if="errors.password" class="errormsg">{{errors.password.message}}</p>
             <p><button type="button" @click="checkPassword">check password</button></p>
