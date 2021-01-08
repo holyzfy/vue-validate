@@ -52,6 +52,7 @@ function getValidate(options) {
                 var list = fields.length ? [].slice.call(fields) : [fields];
                 var hasError = true;
                 list.forEach(function (el) {
+                    context.$delete(context.errors, el.name);
                     check.call(context, el, bindingValue);
                     if(context.errors[el.name]) {
                         hasError = false;
